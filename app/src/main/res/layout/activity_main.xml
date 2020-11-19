@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightBlue"
+    tools:context=".Activities.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+
+        android:background="#478DC4"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent"
+
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"
+
+            android:text="Available Voting Posts"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+
+            />
+
+
+        <ImageView
+            android:id="@+id/profile_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:layout_gravity="bottom"
+            android:layout_margin="15dp"
+            android:background="@drawable/round_solid"
+
+            android:backgroundTint="#555357"
+            android:padding="2dp"
+            android:src="@drawable/ic_baseline_person_24" />
+
+    </LinearLayout>
+
+
+    <ImageView
+
+        android:id="@+id/loc_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="10dp"
+        android:src="@drawable/ic_baseline_location_on_24"
+        app:layout_constraintBottom_toBottomOf="@id/location"
+
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="@id/location" />
+
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="20dp"
+        android:text="New Delhi"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/loc_logo"
+
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_posts"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/location"
+
+        tools:itemCount="5"
+        tools:listitem="@layout/item_post_rv"
+
+
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

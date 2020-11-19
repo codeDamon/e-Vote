@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/border"
+
+    android:padding="5dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/party_logo"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="2dp"
+
+        android:src="@drawable/ic_baseline_person_24"
+        app:civ_border_width="1dp"
+        app:civ_border_color="#FF000000"
+
+        />
+
+
+    <TextView
+        android:id="@+id/party_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintStart_toEndOf="@id/party_logo"
+        app:layout_constraintEnd_toStartOf="@id/select_btn"
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:layout_marginStart="20dp"
+        android:padding="2dp"
+
+        android:text="Bharatiya Janta Party (BJP)"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+
+        android:maxLines="1"
+        android:ems="3"
+        android:ellipsize="end" />
+
+
+    <TextView
+        android:id="@+id/tv_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintTop_toBottomOf="@id/party_name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/party_name"
+
+        android:text="Leader"
+        android:textSize="16sp"
+        android:textColor="@color/black" />
+
+
+    <TextView
+        android:id="@+id/party_leader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintTop_toTopOf="@id/tv_1"
+        app:layout_constraintBottom_toBottomOf="@id/tv_1"
+        app:layout_constraintStart_toEndOf="@id/tv_1"
+
+        android:layout_marginStart="10dp"
+        android:gravity="center"
+
+        android:text="Narendra Modi"
+        android:textSize="14sp" />
+
+
+    <ImageView
+        android:id="@+id/select_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:layout_margin="5dp"
+
+        android:src="@drawable/ic_baseline_radio_button_checked_24"
+        app:tint="@color/red"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.0dp"
+
+        app:layout_constraintTop_toBottomOf="parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+
+        android:background="@color/black"
+     />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
