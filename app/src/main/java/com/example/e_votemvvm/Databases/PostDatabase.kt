@@ -5,11 +5,13 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.e_votemvvm.Models.Post
+import com.example.e_votemvvm.Models.Vote
 
-@Database(entities = [Post::class], version = 1, exportSchema = false)
+@Database(entities = [Post::class, Vote::class], version = 1, exportSchema = false)
 abstract class PostDatabase : RoomDatabase() {
 
     abstract fun getPostDao() : PostDatabaseDao
+    abstract fun getVoteDao() : VoteDao
 
     companion object {
 

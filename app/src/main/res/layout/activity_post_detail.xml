@@ -134,6 +134,7 @@
         app:layout_constraintEnd_toEndOf="@id/details"
 
         android:text="Vote"
+        android:textColor="@color/white"
 
         android:layout_marginTop="20dp"/>
 

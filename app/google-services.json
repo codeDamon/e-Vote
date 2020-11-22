@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "102504112259",
+    "firebase_url": "https://evote-blockchain.firebaseio.com",
+    "project_id": "evote-blockchain",
+    "storage_bucket": "evote-blockchain.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:102504112259:android:27748c199f59286f65bbb6",
+        "android_client_info": {
+          "package_name": "com.example.e_votemvvm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "102504112259-8lqikclad8cbs8f1k43o8jl3h5grqncl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh-ZGOdsgX33BJRQj22CTZdtCHQFQ4DCI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "102504112259-8lqikclad8cbs8f1k43o8jl3h5grqncl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

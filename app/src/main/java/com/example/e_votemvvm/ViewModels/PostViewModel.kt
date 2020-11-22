@@ -22,7 +22,6 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         val dao = PostDatabase.getInstance(application).getPostDao()
         repository = PostRepository(dao)
         allPosts = repository.getAllPosts
-
     }
 
     fun insertPost(post: Post) = viewModelScope.launch(Dispatchers.IO){

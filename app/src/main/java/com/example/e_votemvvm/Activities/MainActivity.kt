@@ -2,6 +2,8 @@ package com.example.e_votemvvm.Activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +17,7 @@ import com.example.e_votemvvm.ViewModels.PostViewModel
 import com.google.gson.Gson
 
 
-class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV {
+class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV , View.OnClickListener{
 
     lateinit var viewModel: PostViewModel
 
@@ -27,6 +29,9 @@ class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV 
 
         val recyclerView = findViewById<RecyclerView>(R.id.rv_posts)
         val adapter = PostAdaptorRV(this, this)
+
+        val profileLogo = findViewById<ImageView>(R.id.profile_logo)
+        profileLogo.setOnClickListener(this)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
@@ -52,7 +57,6 @@ class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV 
             myEdit.putBoolean("newUser", false).apply()
             fillList()
         }
-
     }
 
     private fun fillList(){
@@ -114,5 +118,14 @@ class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV 
         val intent = Intent(this, PostDetailActivity::class.java)
         intent.putExtra("post", post)
         startActivity(intent)
+    }
+
+    override fun onClick(v: View?) {
+        when(v!!.id){
+            R.id.profile_logo -> {
+                val intent = Intent(this,TestActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 }

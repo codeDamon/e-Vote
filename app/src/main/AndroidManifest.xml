@@ -11,9 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EVoteMVVM">
-        <activity android:name=".Activities.VoteActivity"></activity>
+        <activity android:name=".Activities.MainActivity"/>
+        <activity android:name=".Activities.MyVotesActivity" />
+        <activity android:name=".Activities.TestActivity" />
+        <activity android:name=".Activities.VoteActivity" />
         <activity android:name=".Activities.PostDetailActivity" />
-        <activity android:name=".Activities.MainActivity">
+        <activity android:name=".Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
