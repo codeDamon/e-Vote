@@ -110,9 +110,14 @@ class OtpVerificationActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
+        if(voterId==null)
+        {
+
+        }
+        else{
         phoneNo?.let {
            sendVerificationCode(it)
-       }
+       }}
 
     }
 
@@ -137,6 +142,8 @@ class OtpVerificationActivity : AppCompatActivity(), View.OnClickListener {
                     Log.d("AUTH", "signInWithCredential:success")
                     Toast.makeText(applicationContext, "signInWithCredential:success", Toast.LENGTH_SHORT).show()
 
+                    intent = Intent(this,MainActivity::class.java)
+                    startActivity(intent)
 
                     // val user = task.result?.user
                     // ...
@@ -222,5 +229,10 @@ class OtpVerificationActivity : AppCompatActivity(), View.OnClickListener {
 
             }
         }
+    }
+
+    fun nextPage(view: View) {
+        intent = Intent(this,MainActivity::class.java)
+        startActivity(intent)
     }
 }

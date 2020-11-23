@@ -62,8 +62,8 @@
             android:hint="Voter ID"
             android:padding="2dp"
 
-            app:boxStrokeColor="@color/black"
-            app:hintTextColor="@color/grey"
+            app:boxStrokeColor="@color/colorAccent"
+            app:hintTextColor="@color/colorAccent"
 
             app:layout_constraintStart_toStartOf="@id/tv1"
             app:layout_constraintTop_toBottomOf="@id/tv1"
@@ -85,8 +85,9 @@
 
             android:layout_marginTop="30dp"
             android:layout_marginEnd="20dp"
-            android:backgroundTint="@color/orange"
+            android:backgroundTint="@color/colorAccent"
             android:text="Submit"
+            android:textColor="@color/white"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/voter_id_input" />
@@ -106,6 +107,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/submit_btn" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            android:onClick="nextPage"
+            android:layout_marginBottom="2dp"
+            android:layout_marginEnd="15dp"/>
+
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,7 +22,7 @@
         android:layout_margin="2dp"
 
         android:src="@drawable/ic_baseline_person_24"
-        app:civ_border_width="1dp"
+        app:civ_border_width="0.5dp"
         app:civ_border_color="#FF000000"
 
         />
@@ -60,8 +60,8 @@
         app:layout_constraintStart_toStartOf="@id/party_name"
 
         android:text="Leader"
-        android:textSize="16sp"
-        android:textColor="@color/black" />
+        android:textSize="14sp"
+        android:textColor="#767776" />
 
 
     <TextView
@@ -77,7 +77,8 @@
         android:gravity="center"
 
         android:text="Narendra Modi"
-        android:textSize="14sp" />
+        android:textColor="@color/black"
+        android:textSize="16sp" />
 
 
     <ImageView

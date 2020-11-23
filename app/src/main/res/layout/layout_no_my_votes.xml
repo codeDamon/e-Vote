@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
 
-        android:background="#478DC4"
+        android:background="@color/colorPrimaryDark"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
 
@@ -44,7 +44,7 @@
             android:layout_margin="15dp"
             android:background="@drawable/round_solid"
 
-            android:backgroundTint="#555357"
+            android:backgroundTint="@color/colorPrimaryExtraLight"
             android:padding="2dp"
             android:src="@drawable/ic_baseline_person_24" />
 

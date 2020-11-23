@@ -46,8 +46,11 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
                 textView.text = post!!.postName
                 val heading : TextView = findViewById(R.id.post_name)
                 heading.text = post!!.postName
-                val date : TextView = findViewById(R.id.post_date)
-                date.text = post!!.postStart + "\n-\n" + post!!.postEnd
+                val startDate : TextView = findViewById(R.id.post_date)
+                startDate.text = post!!.postStart
+                val endDate : TextView = findViewById(R.id.post_end)
+                endDate.text = post!!.postEnd
+
 
                 val detail:TextView = findViewById(R.id.details)
                 detail.text = post!!.details

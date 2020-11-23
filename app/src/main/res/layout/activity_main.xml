@@ -5,7 +5,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightBlue"
+    android:background="@color/colorPrimaryExtraLight"
     tools:context=".Activities.MainActivity">
 
     <LinearLayout
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
 
-        android:background="#478DC4"
+        android:background="@color/colorPrimaryDark"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
 
@@ -31,7 +31,7 @@
             android:layout_marginStart="15dp"
             android:layout_weight="1"
 
-            android:text="Available Voting Posts"
+            android:text="Available Posts"
             android:textColor="@color/white"
             android:textSize="20sp"
 
@@ -48,7 +48,9 @@
             android:layout_margin="15dp"
             android:background="@drawable/round_solid"
 
-            android:backgroundTint="#555357"
+
+
+            android:backgroundTint="@color/colorPrimaryExtraLight"
             android:padding="2dp"
             android:src="@drawable/ic_baseline_person_24" />
 
@@ -58,11 +60,12 @@
     <ImageView
 
         android:id="@+id/loc_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
 
         android:layout_marginStart="10dp"
         android:src="@drawable/ic_baseline_location_on_24"
+        app:tint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="@id/location"
 
         app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +80,7 @@
 
         android:layout_marginTop="20dp"
         android:text="New Delhi"
-        android:textColor="@color/black"
+        android:textColor="@color/colorAccent"
         android:textSize="16sp"
 
         android:textStyle="bold"
@@ -91,12 +94,17 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
 
-        android:layout_marginTop="5dp"
+        android:elevation="2dp"
+
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
 
         app:layout_constraintTop_toBottomOf="@+id/location"
 
         tools:itemCount="5"
+        android:background="@drawable/border"
         tools:listitem="@layout/item_post_rv"
 
 

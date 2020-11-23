@@ -134,6 +134,8 @@ class LoginActivity : AppCompatActivity(),View.OnClickListener {
                 //for help icon
                 R.id.help_icon -> {
                     Toast.makeText(this, "Help", Toast.LENGTH_SHORT).show()
+                    intent = Intent(this,MainActivity::class.java)
+                    startActivity(intent)
                 }
 
                 //for no voter id
@@ -154,7 +156,6 @@ class LoginActivity : AppCompatActivity(),View.OnClickListener {
                     } else {
                         voterIdEnteredEt.error = null
 
-                        Toast.makeText(this, enteredVoterId, Toast.LENGTH_SHORT).show()
                         showLoadingDialog()
 
                         fetchVoterIdData(enteredVoterId)
@@ -167,5 +168,10 @@ class LoginActivity : AppCompatActivity(),View.OnClickListener {
 
             }
         }
+    }
+
+    fun nextPage(view: View) {
+        intent = Intent(this,OtpVerificationActivity::class.java)
+        startActivity(intent)
     }
 }

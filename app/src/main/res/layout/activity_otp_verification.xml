@@ -25,7 +25,7 @@
             app:tint="@color/black" />
 
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/logo"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -35,7 +35,26 @@
 
             android:src="@drawable/eci_logo"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />-->
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/logo"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+
+            app:lottie_rawRes="@raw/otpanimation"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+
+            android:scaleType="centerCrop"
+
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/voter_id_no"
+
+
+            />
 
         <TextView
             android:id="@+id/tv1"
@@ -48,10 +67,10 @@
             android:text="Voter ID Number"
             android:textColor="@color/black"
 
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logo" />
+            app:layout_constraintTop_toBottomOf="@id/back_icon" />
 
         <TextView
             android:id="@+id/voter_id_no"
@@ -62,7 +81,7 @@
             android:layout_marginTop="5dp"
 
             android:text="ABCD2353"
-            android:textColor="@color/black"
+            android:textColor="@color/textColor"
 
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +102,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/voter_id_no" />
+            app:layout_constraintTop_toBottomOf="@+id/logo" />
 
         <in.aabhasjindal.otptextview.OtpTextView
             android:id="@+id/otp_view"
@@ -92,7 +111,7 @@
 
             android:layout_marginTop="20dp"
 
-            android:textColor="@color/orange"
+            android:textColor="@color/textColor"
             app:bar_enabled="true"
             app:bar_height="2.8dp"
             app:height="36dp"
@@ -105,7 +124,7 @@
 
             app:length="6"
             app:otp=""
-            app:bar_active_color="@color/green"
+            app:bar_active_color="@color/colorAccent"
             app:otp_text_size="24dp"
             app:width="40dp" />
 
@@ -115,8 +134,9 @@
             android:layout_height="wrap_content"
 
             android:layout_marginTop="40dp"
-            android:backgroundTint="@color/orange"
+            android:backgroundTint="@color/colorAccent"
             android:text="Verify"
+            android:textColor="@color/white"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -138,7 +158,17 @@
             app:layout_constraintTop_toBottomOf="@id/verify_btn" />
 
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
+            android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            android:onClick="nextPage"
+            android:layout_marginBottom="2dp"
+            android:layout_marginEnd="15dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -13,4 +13,15 @@
     <color name="red">#F11914</color>
     <color name="green">#2BA030</color>
     <color name="orange">#E64A19</color>
+    <color name="lightGrey">#DBDAD9</color>
+
+    <color name="colorPrimary">#567BF3</color>
+    <color name="colorPrimaryDark">#567BF3</color>
+    <color name="colorPrimaryLight">#A1B6F8</color>
+    <color name="colorAccent">#5D80EF</color>
+
+    <color name="colorPrimaryExtraLight">#EDF1F9</color>
+    <color name="darkPink">#FD8993</color>
+    <color name="textColor">#567BF3</color>
+    <color name="progressColor">#EBBF0D</color>
 </resources>

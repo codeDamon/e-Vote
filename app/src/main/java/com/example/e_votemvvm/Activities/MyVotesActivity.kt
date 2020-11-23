@@ -31,7 +31,7 @@ class MyVotesActivity : AppCompatActivity() {
             list?.let { adapter.updateList(it) }
 
             if(list.isEmpty()){
-                setContentView(R.layout.layout_temp_tv)
+                setContentView(R.layout.layout_no_my_votes)
             }
 
         })
