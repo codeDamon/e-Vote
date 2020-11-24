@@ -28,6 +28,10 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         repository.insert(post)
     }
 
+    fun fetchInsertAllPosts(list: List<Post>) = viewModelScope.launch(Dispatchers.IO) {
+        repository.insertPosts(list)
+    }
+
     fun deletePost(post: Post) = viewModelScope.launch(Dispatchers.IO){
         repository.delete(post)
     }

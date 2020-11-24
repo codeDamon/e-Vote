@@ -10,7 +10,7 @@
         android:id="@+id/animationView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:lottie_rawRes="@raw/otpanimation"
+        app:lottie_rawRes="@raw/vote_done_animation"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
 

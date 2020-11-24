@@ -3,6 +3,7 @@ package com.example.e_votemvvm.Activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -53,6 +54,7 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
 
 
                 val detail:TextView = findViewById(R.id.details)
+                detail.movementMethod = ScrollingMovementMethod()
                 detail.text = post!!.details
 
                 for(i in partyList)

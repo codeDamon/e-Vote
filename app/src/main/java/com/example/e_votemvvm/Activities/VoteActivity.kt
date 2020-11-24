@@ -250,6 +250,8 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
                     //Toast.makeText(applicationContext, previousHash, Toast.LENGTH_SHORT).show()
 
                     loadingDialog.dismiss()
+                    moveToMainPage()
+
 
                 } else {
                     Log.d("BLOCK", "No Previous Hash")
@@ -265,5 +267,15 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
 
     fun fetch(view: View) {
         showLoadingDialog()
+    }
+
+    fun moveToMainPage(){
+
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        val intent2 = Intent(this, MyVotesActivity::class.java)
+        startActivity(intent2)
+        finishAffinity()
+
     }
 }

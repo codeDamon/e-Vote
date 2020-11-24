@@ -83,8 +83,7 @@ class OtpVerificationActivity : AppCompatActivity(), View.OnClickListener {
 
                 Log.d("AUTH", "onVerificationCompleted:$p0")
 
-                Toast.makeText(applicationContext, "onVerificationCompleted", Toast.LENGTH_SHORT)
-                    .show()
+                //Toast.makeText(applicationContext, "onVerificationCompleted", Toast.LENGTH_SHORT).show()
 
                 signInWithPhoneAuthCredential(p0)
 
@@ -94,7 +93,7 @@ class OtpVerificationActivity : AppCompatActivity(), View.OnClickListener {
             override fun onVerificationFailed(e: FirebaseException) {
                 Log.w("AUTH", "onVerificationFailed", e)
 
-                Toast.makeText(applicationContext, "Verification Failed", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(applicationContext, "Verification Failed", Toast.LENGTH_SHORT).show()
 
 
                 if (e is FirebaseAuthInvalidCredentialsException) {
@@ -140,17 +139,18 @@ class OtpVerificationActivity : AppCompatActivity(), View.OnClickListener {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("AUTH", "signInWithCredential:success")
-                    Toast.makeText(applicationContext, "signInWithCredential:success", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(applicationContext, "signInWithCredential:success", Toast.LENGTH_SHORT).show()
 
                     intent = Intent(this,MainActivity::class.java)
                     startActivity(intent)
+                    finishAffinity()
 
                     // val user = task.result?.user
                     // ...
                 } else {
                     // Sign in failed, display a message and update the UI
                     Log.w("AUTH", "signInWithCredential:failure", task.exception)
-                    Toast.makeText(applicationContext, "signInWithCredential:failure", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(applicationContext, "signInWithCredential:failure", Toast.LENGTH_SHORT).show()
 
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
                         // The verification code entered was invalid
@@ -214,8 +214,6 @@ class OtpVerificationActivity : AppCompatActivity(), View.OnClickListener {
 
                     else{
                         val enteredOtpNotNull : String = enteredOtp!!
-
-                        Toast.makeText(applicationContext, otpEnteredTv.otp, Toast.LENGTH_SHORT).show()
 
                         val credential = PhoneAuthProvider.getCredential(storedVerificationId,enteredOtpNotNull)
                         signInWithPhoneAuthCredential(credential)

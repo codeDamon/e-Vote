@@ -7,8 +7,11 @@ import com.example.e_votemvvm.Models.Post
 @Dao
 interface PostDatabaseDao  {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPost(post: Post)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllPost(posts:List<Post>)
 
     @Query("SELECT * from posts_table WHERE _id = :id")
     suspend fun getPost(id: Long): Post?

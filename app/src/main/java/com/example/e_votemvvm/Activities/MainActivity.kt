@@ -1,9 +1,15 @@
 package com.example.e_votemvvm.Activities
 
+import android.app.Dialog
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.view.Window
 import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,12 +20,19 @@ import com.example.e_votemvvm.Models.Party
 import com.example.e_votemvvm.Models.Post
 import com.example.e_votemvvm.R
 import com.example.e_votemvvm.ViewModels.PostViewModel
+import com.google.firebase.database.*
 import com.google.gson.Gson
 
 
 class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV , View.OnClickListener{
 
+
+    val SHARED_PREF = "MY_SHARED_PREF"
+    lateinit var sharedPreferences: SharedPreferences
+
     lateinit var viewModel: PostViewModel
+    lateinit var loadingDialog : Dialog
+    lateinit var locTv: TextView
 
 
 
@@ -28,6 +41,8 @@ class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV 
         setContentView(R.layout.activity_main)
 
         val recyclerView = findViewById<RecyclerView>(R.id.rv_posts)
+        locTv = findViewById(R.id.location)
+
         val adapter = PostAdaptorRV(this, this)
 
         val profileLogo = findViewById<ImageView>(R.id.profile_logo)
@@ -43,23 +58,94 @@ class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV 
         )
                 .get(PostViewModel::class.java)
 
+
         viewModel.allPosts.observe(this, Observer { list ->
-            list?.let { adapter.updateList(it) }
+            list?.let { adapter.updateList(it)
+           }
 
         })
 
 
-        val sharedPreferences = getSharedPreferences("mySharePref", MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE)
         val newUser = sharedPreferences.getBoolean("newUser",true)
+        val locCity =  sharedPreferences.getString("city","Delhi")
+        locTv.text = locCity
+
         val myEdit = sharedPreferences.edit()
 
         if(newUser) {
             myEdit.putBoolean("newUser", false).apply()
-            fillList()
+            fillListUsingFirebase()
+
         }
+
+
     }
 
-    private fun fillList(){
+    fun showLoadingDialog() {
+        loadingDialog = Dialog(this)
+        loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+        loadingDialog.setCancelable(true)
+
+        loadingDialog.setContentView(R.layout.loading_layout)
+        loadingDialog.show()
+    }
+
+    private fun fillListUsingFirebase(){
+
+        showLoadingDialog()
+
+        val ref: DatabaseReference = FirebaseDatabase.getInstance().reference.child("posts")
+        val check: Query = ref.orderByKey()
+
+        check.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                //Log.d("POST", snapshot.value.toString())
+                for (child in snapshot.children) {
+
+                    //Log.d("POST", child.value.toString())
+
+                    val p_name = child.child("post_name").value.toString()
+                    val p_start = child.child("post_start").value.toString()
+                    val p_end = child.child("post_end").value.toString()
+                    val p_details = child.child("post_details").value.toString()
+
+
+                    val parties: ArrayList<Party> = ArrayList()
+
+                    for (party in child.child("parties").children) {
+                        Log.d("POST", party.child("logo").value.toString())
+                        parties.add(
+                            Party(
+                                party.child("name").value.toString(),
+                                party.child("logo").value.toString(),
+                                party.child("leader").value.toString(),
+                                party.child("short_name").value.toString(),
+                                false
+                            )
+                        )
+                    }
+
+                    val gson = Gson();
+                    val parties_str: String = gson.toJson(parties)
+
+                    viewModel.insertPost(Post(p_name, p_start, p_end, parties_str, p_details))
+
+
+                }
+                loadingDialog.dismiss()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d("POST", "No Data")
+            }
+
+        })
+    }
+
+    /*private fun fillList(){
 
 
         val parties: ArrayList<Party> = ArrayList()
@@ -112,7 +198,7 @@ class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV 
             "24 Jan 2021 07:59", pp, "details_here"
         )
         viewModel.insertPost(postObj)
-    }
+    }*/
 
     override fun onItemClicked(post: Post) {
         val intent = Intent(this, PostDetailActivity::class.java)

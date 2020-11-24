@@ -6,12 +6,12 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EVoteMVVM">
-        <activity android:name=".Activities.OtpVerificationActivity"></activity>
+        <activity android:name=".Activities.OtpVerificationActivity" />
         <activity android:name=".Activities.MainActivity" />
         <activity android:name=".Activities.MyVotesActivity" />
         <activity android:name=".Activities.TestActivity" />
