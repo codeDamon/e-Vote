@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.TestActivity2">
+
+    <EditText
+
+        android:id="@+id/plain_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:hint="Plain Text"
+        android:gravity="center"
+
+        android:layout_marginTop="150dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        />
+
+    <EditText
+        android:id="@+id/cypher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintTop_toBottomOf="@+id/plain_text"
+
+        android:layout_marginStart="20dp"
+
+        android:gravity="center"
+        android:hint="Cypher Text"
+        />
+
+    <Button
+        android:id="@+id/ptoc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="P to C"
+        android:layout_marginTop="10dp"
+
+
+        app:layout_constraintTop_toBottomOf="@id/cypher"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/ctop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="C to P"
+
+
+        app:layout_constraintTop_toBottomOf="@id/ptoc"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

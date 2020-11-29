@@ -1,7 +1,9 @@
 package com.example.e_votemvvm.Activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +34,12 @@ class MyVotesActivity : AppCompatActivity() {
 
             if(list.isEmpty()){
                 setContentView(R.layout.layout_no_my_votes)
+                val voteBtn = findViewById<Button>(R.id.voteNowBtn)
+                voteBtn.setOnClickListener {
+                    val intent2 = Intent(this, MainActivity::class.java)
+                    startActivity(intent2)
+                    finishAffinity()
+                }
             }
 
         })

@@ -32,6 +32,10 @@ class PostRepository(private val postDatabaseDao: PostDatabaseDao) {
         postDatabaseDao.deletePost(post)
     }
 
+    suspend fun deleteAll(){
+        postDatabaseDao.deleteAllPosts()
+    }
+
     suspend fun getPost(id: Long):Post?{
         return postDatabaseDao.getPost(id)
     }

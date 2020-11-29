@@ -36,6 +36,10 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         repository.delete(post)
     }
 
+    fun deleteAllPosts() = viewModelScope.launch(Dispatchers.IO){
+        repository.deleteAll()
+    }
+
     fun getPost(id: Long) :Post? {
         viewModelScope.launch(Dispatchers.IO){
              post=repository.getPost(id)

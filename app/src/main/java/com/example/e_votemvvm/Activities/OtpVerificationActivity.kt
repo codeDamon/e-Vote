@@ -3,30 +3,34 @@ package com.example.e_votemvvm.Activities
 import `in`.aabhasjindal.otptextview.OtpTextView
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.core.view.isNotEmpty
 import com.example.e_votemvvm.R
+import com.example.e_votemvvm.Utilities.BiometricVerification
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import java.util.concurrent.TimeUnit
 import kotlin.time.minutes
 
-class OtpVerificationActivity : AppCompatActivity(), View.OnClickListener {
+class OtpVerificationActivity : AppCompatActivity(), View.OnClickListener, BiometricVerification.OnVerificationStateChangeListener {
 
     lateinit var countTimeTv: TextView
     lateinit var verifyBtn: Button
     lateinit var voterIdTv : TextView
     lateinit var otpEnteredTv : OtpTextView
     lateinit var backBtn : ImageView
+    lateinit var switchFingerPrint: SwitchMaterial
+    lateinit var fingerprint_logo:ImageView
 
     lateinit var sharedPreferences: SharedPreferences
     private val SHARED_PREF = "MY_SHARED_PREF"
@@ -39,6 +43,7 @@ class OtpVerificationActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var storedVerificationId: String
 
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_otp_verification)
@@ -48,10 +53,27 @@ class OtpVerificationActivity : AppCompatActivity(), View.OnClickListener {
         voterIdTv = findViewById(R.id.voter_id_no)
         otpEnteredTv = findViewById(R.id.otp_view)
         backBtn = findViewById(R.id.back_icon)
+        switchFingerPrint = findViewById(R.id.switch_fingerprint)
+        fingerprint_logo = findViewById(R.id.finger)
+
 
         countTimeTv.setOnClickListener(this)
         verifyBtn.setOnClickListener(this)
         backBtn.setOnClickListener(this)
+
+        switchFingerPrint.setOnCheckedChangeListener { _ , isChecked ->
+            if (isChecked) {
+                val biometricVerification = BiometricVerification(this,this)
+                if(biometricVerification.checkBiometricSupport()){
+                    biometricVerification.buildBiometricPrompt("Biometric Verification","Please Verify","Cancel")
+                }
+            }
+            else
+            {
+                sharedPreferences.edit().putBoolean("isBioVerificationEnabled",false).apply()
+                fingerprint_logo.setColorFilter(ContextCompat.getColor(this,R.color.grey),android.graphics.PorterDuff.Mode.SRC_IN)
+            }
+        }
 
         //Firebase Auth
         auth = FirebaseAuth.getInstance()
@@ -139,6 +161,7 @@ class OtpVerificationActivity : AppCompatActivity(), View.OnClickListener {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("AUTH", "signInWithCredential:success")
+                    otpEnteredTv.showSuccess()
                     //Toast.makeText(applicationContext, "signInWithCredential:success", Toast.LENGTH_SHORT).show()
 
                     intent = Intent(this,MainActivity::class.java)
@@ -150,6 +173,9 @@ class OtpVerificationActivity : AppCompatActivity(), View.OnClickListener {
                 } else {
                     // Sign in failed, display a message and update the UI
                     Log.w("AUTH", "signInWithCredential:failure", task.exception)
+                    otpEnteredTv.showError()
+
+
                     //Toast.makeText(applicationContext, "signInWithCredential:failure", Toast.LENGTH_SHORT).show()
 
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
@@ -232,5 +258,22 @@ class OtpVerificationActivity : AppCompatActivity(), View.OnClickListener {
     fun nextPage(view: View) {
         intent = Intent(this,MainActivity::class.java)
         startActivity(intent)
+    }
+
+    override fun onStateChange(bool: Boolean) {
+        if(bool){
+            Toast.makeText(applicationContext, "Biometric Verification Successful", Toast.LENGTH_SHORT).show()
+            fingerprint_logo.setColorFilter(ContextCompat.getColor(this,R.color.green),android.graphics.PorterDuff.Mode.SRC_IN)
+
+            switchFingerPrint.isChecked = true
+
+            sharedPreferences.edit().putBoolean("isBioVerificationEnabled",true).apply()
+        }
+        else{
+            Toast.makeText(applicationContext, "Biometric Verification Unsuccessful", Toast.LENGTH_SHORT).show()
+            switchFingerPrint.isChecked = false
+            sharedPreferences.edit().putBoolean("isBioVerificationEnabled",false).apply()
+
+        }
     }
 }

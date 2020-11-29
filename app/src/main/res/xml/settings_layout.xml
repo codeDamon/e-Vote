@@ -1,0 +1,48 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Security">
+
+
+    <SwitchPreference android:key="isBioVerificationEnabled"
+        android:title="Biometric Verification"
+        android:icon="@drawable/ic_baseline_fingerprint_24"
+        android:summary="Use Biometrics to start the app and vote"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="About">
+
+        <Preference android:key="help"
+            android:icon="@drawable/ic_baseline_live_help_24"
+            android:title="Help and Support"
+            android:summary="Visit ECI website">
+
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="http://eci.gov.in/" />
+
+
+        </Preference>
+
+
+        <Preference android:key="about_us"
+            android:icon="@drawable/ic_baseline_emoji_people_24"
+
+
+            android:title="About Us"
+            />
+
+        <Preference android:key="version"
+            android:icon="@drawable/ic_baseline_perm_device_information_24"
+            android:title="App version"
+
+            android:selectable="false"
+            android:summary="1.0.0"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
+
+

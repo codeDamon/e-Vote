@@ -3,13 +3,17 @@ package com.example.e_votemvvm.Activities
 import android.app.Dialog
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.Window
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.Toolbar
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,12 +23,14 @@ import com.example.e_votemvvm.Adaptors.PostAdaptorRV
 import com.example.e_votemvvm.Models.Party
 import com.example.e_votemvvm.Models.Post
 import com.example.e_votemvvm.R
+import com.example.e_votemvvm.Utilities.BiometricVerification
 import com.example.e_votemvvm.ViewModels.PostViewModel
 import com.google.firebase.database.*
 import com.google.gson.Gson
 
 
-class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV , View.OnClickListener{
+class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV , View.OnClickListener,
+    BiometricVerification.OnVerificationStateChangeListener{
 
 
     val SHARED_PREF = "MY_SHARED_PREF"
@@ -36,6 +42,7 @@ class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV 
 
 
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -43,10 +50,13 @@ class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV 
         val recyclerView = findViewById<RecyclerView>(R.id.rv_posts)
         locTv = findViewById(R.id.location)
 
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
         val adapter = PostAdaptorRV(this, this)
 
-        val profileLogo = findViewById<ImageView>(R.id.profile_logo)
-        profileLogo.setOnClickListener(this)
+        /*val profileLogo = findViewById<ImageView>(R.id.profile_logo)
+        profileLogo.setOnClickListener(this)*/
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
@@ -60,15 +70,16 @@ class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV 
 
 
         viewModel.allPosts.observe(this, Observer { list ->
-            list?.let { adapter.updateList(it)
-           }
+            list?.let {
+                adapter.updateList(it)
+            }
 
         })
 
 
         sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE)
-        val newUser = sharedPreferences.getBoolean("newUser",true)
-        val locCity =  sharedPreferences.getString("city","Delhi")
+        val newUser = sharedPreferences.getBoolean("newUser", true)
+        val locCity =  sharedPreferences.getString("city", "Delhi")
         locTv.text = locCity
 
         val myEdit = sharedPreferences.edit()
@@ -76,11 +87,20 @@ class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV 
         if(newUser) {
             myEdit.putBoolean("newUser", false).apply()
             fillListUsingFirebase()
-
         }
-
-
-    }
+        else{
+            if(sharedPreferences.getBoolean("isBioVerificationEnabled", false)){
+                val biometricVerification = BiometricVerification(this, this)
+                if(biometricVerification.checkBiometricSupport()){
+                    biometricVerification.buildBiometricPrompt(
+                        "Biometric Verification",
+                        "Please Verify",
+                        "Close App"
+                    )
+                }
+            }
+            }
+        }
 
     fun showLoadingDialog() {
         loadingDialog = Dialog(this)
@@ -208,10 +228,51 @@ class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV 
 
     override fun onClick(v: View?) {
         when(v!!.id){
-            R.id.profile_logo -> {
+           /* R.id.profile_logo -> {
                 val intent = Intent(this,TestActivity::class.java)
                 startActivity(intent)
+            }*/
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_activity_toolbar_menu,menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.my_vote_menu -> {
+                intent = Intent(this,MyVotesActivity::class.java)
+                startActivity(intent)
+
             }
+            R.id.settings_menu -> {
+                intent = Intent(this,SettingActivity::class.java)
+                startActivity(intent)
+
+            }
+            R.id.logout_menu -> {
+                Toast.makeText(applicationContext, "Logout Successful", Toast.LENGTH_SHORT).show()
+                sharedPreferences.edit().clear().apply()
+                viewModel.deleteAllPosts()
+                intent = Intent(this,LoginActivity::class.java)
+                startActivity(intent)
+                finishAffinity()
+
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onStateChange(bool: Boolean) {
+        if(bool){
+            Toast.makeText(applicationContext, "Verification Successful", Toast.LENGTH_SHORT).show()
+        }
+        else{
+            Toast.makeText(applicationContext, "Verification Unsuccessful", Toast.LENGTH_SHORT).show()
+
+            finish()
         }
     }
 }

@@ -3,6 +3,7 @@
     package="com.example.e_votemvvm">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
     <application
         android:allowBackup="true"
@@ -11,6 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EVoteMVVM">
+        <activity android:name=".Activities.SettingActivity"></activity>
+        <activity android:name=".Activities.TestActivity2" />
         <activity android:name=".Activities.OtpVerificationActivity" />
         <activity android:name=".Activities.MainActivity" />
         <activity android:name=".Activities.MyVotesActivity" />

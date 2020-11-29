@@ -93,7 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="50dp"
             android:text="Enter OTP"
             android:textColor="@color/black"
 
@@ -133,7 +133,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:backgroundTint="@color/colorAccent"
             android:text="Verify"
             android:textColor="@color/white"
@@ -143,12 +143,23 @@
             app:layout_constraintTop_toBottomOf="@id/otp_view" />
 
         <TextView
+            android:id="@+id/tv_9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@id/count_time"
+            android:text="Use Fingerprint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
             android:id="@+id/count_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text=""
+
             android:textColor="@color/blue"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -169,6 +180,31 @@
             android:onClick="nextPage"
             android:layout_marginBottom="2dp"
             android:layout_marginEnd="15dp"/>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_fingerprint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+
+            app:layout_constraintTop_toBottomOf="@id/tv_9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+
+        <ImageView
+            android:id="@+id/finger"
+            android:layout_width="70dp"
+            android:layout_height="80dp"
+
+            android:src="@drawable/ic_baseline_fingerprint_24"
+
+
+            app:layout_constraintTop_toBottomOf="@id/switch_fingerprint"
+            app:layout_constraintStart_toStartOf="@id/switch_fingerprint"
+            app:layout_constraintEnd_toEndOf="@id/switch_fingerprint"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -3,6 +3,7 @@ package com.example.e_votemvvm.Activities
 import android.app.Dialog
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,6 +11,7 @@ import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +22,7 @@ import com.example.e_votemvvm.Models.Party
 import com.example.e_votemvvm.Models.Post
 import com.example.e_votemvvm.Models.Vote
 import com.example.e_votemvvm.R
+import com.example.e_votemvvm.Utilities.BiometricVerification
 import com.example.e_votemvvm.Utilities.HashSHA256
 import com.example.e_votemvvm.ViewModels.PostViewModel
 import com.example.e_votemvvm.ViewModels.VoteViewModel
@@ -32,7 +35,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdaptorRV, View.OnClickListener{
+class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdaptorRV,
+    BiometricVerification.OnVerificationStateChangeListener,View.OnClickListener {
 
     val SHARED_PREF = "MY_SHARED_PREF"
     lateinit var sharedPreferences: SharedPreferences
@@ -118,6 +122,44 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
         loadingDialog.show()
     }
 
+    private fun voteNow(){
+
+        //Toast.makeText(this, "Processing Request...", Toast.LENGTH_SHORT).show()
+        showLoadingDialog()
+
+        val viewModel: PostViewModel = ViewModelProvider(
+            this, ViewModelProvider.AndroidViewModelFactory.getInstance(
+                application
+            )
+        ).get(PostViewModel::class.java)
+
+        post?.let { viewModel.deletePost(it) }
+
+        val sdf = SimpleDateFormat("dd-MMMM,yyyy-HH:mm")
+        val c: Calendar = Calendar.getInstance()
+
+        dateTime = sdf.format(c.time)
+        partyVoted = list[selectedPartyIndex].partyName
+        postVoted = thisPost
+
+        val vote = Vote(
+            voterId,
+            dateTime,
+            postVoted,
+            partyVoted
+        )
+
+        addToMyVotes(vote)
+        addVoteToFirebase(voterId, dateTime, vote)
+        saveBlockOnFirebase()
+
+
+        selectedPartyIndex = -1
+
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.accept_btn -> {
@@ -125,39 +167,20 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
                     Toast.makeText(this, "No party selected", Toast.LENGTH_SHORT).show()
                 else {
 
-                    //Toast.makeText(this, "Processing Request...", Toast.LENGTH_SHORT).show()
-                    showLoadingDialog()
+                    if (sharedPreferences.getBoolean("isBioVerificationEnabled", false)) {
 
-                    val viewModel: PostViewModel = ViewModelProvider(
-                        this, ViewModelProvider.AndroidViewModelFactory.getInstance(
-                            application
-                        )
-                    ).get(PostViewModel::class.java)
-
-                    post?.let { viewModel.deletePost(it) }
-
-                    val sdf = SimpleDateFormat("dd-MMMM,yyyy-HH:mm")
-                    val c: Calendar = Calendar.getInstance()
-
-                    dateTime = sdf.format(c.time)
-                    partyVoted = list[selectedPartyIndex].partyName
-                    postVoted = thisPost
-
-                    val vote = Vote(
-                        voterId,
-                        dateTime,
-                        postVoted,
-                        partyVoted
-                    )
-
-                    addToMyVotes(vote)
-                    addVoteToFirebase(voterId, dateTime, vote)
-                    saveBlockOnFirebase()
-
-
-                    selectedPartyIndex = -1
-
-
+                        val biometricVerification = BiometricVerification(this,this)
+                        if(biometricVerification.checkBiometricSupport()) {
+                            biometricVerification.buildBiometricPrompt(
+                                "Biometric Verification",
+                                "Please Verify",
+                                "Cancel"
+                            )
+                        }
+                    }
+                    else{
+                        voteNow()
+                    }
                 }
 
             }
@@ -166,11 +189,10 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
             }
 
             R.id.profile_logo -> {
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+
                 val intent2 = Intent(this, MyVotesActivity::class.java)
                 startActivity(intent2)
-                finishAffinity()
+               
             }
         }
     }
@@ -277,5 +299,17 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
         startActivity(intent2)
         finishAffinity()
 
+    }
+
+    override fun onStateChange(bool: Boolean) {
+        if(bool){
+            Toast.makeText(applicationContext, "Verification Successful", Toast.LENGTH_SHORT).show()
+            voteNow()
+        }
+        else{
+            Toast.makeText(applicationContext, "Verification Unsuccessful", Toast.LENGTH_SHORT).show()
+
+            finish()
+        }
     }
 }

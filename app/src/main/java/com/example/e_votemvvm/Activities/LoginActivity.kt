@@ -3,6 +3,7 @@ package com.example.e_votemvvm.Activities
 import android.app.Dialog
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -204,15 +205,23 @@ class LoginActivity : AppCompatActivity(),View.OnClickListener {
 
                 //for help icon
                 R.id.help_icon -> {
-                    Toast.makeText(this, "Help", Toast.LENGTH_SHORT).show()
-                    intent = Intent(this,MainActivity::class.java)
+
+                    val eciHelpUrl = "https://ecisveep.nic.in/"
+                    intent = Intent(Intent.ACTION_VIEW)
+                        .setData(Uri.parse(eciHelpUrl))
+                    //Toast.makeText(this, "Help", Toast.LENGTH_SHORT).show()
+                    //intent = Intent(this,TestActivity2::class.java)
                     startActivity(intent)
                 }
 
                 //for no voter id
                 R.id.no_voter_id -> {
-                    Toast.makeText(this, "No voter Id", Toast.LENGTH_SHORT).show()
-                    intent = Intent(this,OtpVerificationActivity::class.java)
+
+                    val form6url: String = "https://nvsp.in/"
+                    intent = Intent(Intent.ACTION_VIEW)
+                        .setData(Uri.parse(form6url))
+                    //Toast.makeText(this, "No voter Id", Toast.LENGTH_SHORT).show()
+                    //intent = Intent(this,OtpVerificationActivity::class.java)
                     startActivity(intent)
 
                 }
