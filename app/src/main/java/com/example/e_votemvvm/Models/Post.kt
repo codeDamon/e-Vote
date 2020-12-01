@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
+import java.security.PrivateKey
 import java.sql.Blob
 import java.sql.Types.BLOB
 import java.util.*

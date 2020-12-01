@@ -23,6 +23,7 @@ import com.example.e_votemvvm.Models.Post
 import com.example.e_votemvvm.Models.Vote
 import com.example.e_votemvvm.R
 import com.example.e_votemvvm.Utilities.BiometricVerification
+import com.example.e_votemvvm.Utilities.EncryptionAES
 import com.example.e_votemvvm.Utilities.HashSHA256
 import com.example.e_votemvvm.ViewModels.PostViewModel
 import com.example.e_votemvvm.ViewModels.VoteViewModel
@@ -33,30 +34,34 @@ import java.security.NoSuchAlgorithmException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
-class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdaptorRV,
-    BiometricVerification.OnVerificationStateChangeListener,View.OnClickListener {
+class VoteActivity : AppCompatActivity(), PartyVoteAdaptorRV.InterfacePartyAdaptorRV,
+    BiometricVerification.OnVerificationStateChangeListener, View.OnClickListener {
 
     val SHARED_PREF = "MY_SHARED_PREF"
     lateinit var sharedPreferences: SharedPreferences
 
-    lateinit var loadingDialog : Dialog
+    lateinit var loadingDialog: Dialog
 
     lateinit var rootNode: FirebaseDatabase
-    lateinit var votesRef : DatabaseReference
+    lateinit var votesRef: DatabaseReference
 
     //fields for a block
-    lateinit var dateTime : String
+    lateinit var dateTime: String
     lateinit var voterId: String
     lateinit var partyVoted: String
     lateinit var postVoted: String
     lateinit var previousHash: String
+    var hash : String? = null
+    lateinit var encryptedData: String
+    lateinit var privateKey :String
 
 
     var list: ArrayList<Party> = ArrayList()
-    var selectedPartyIndex : Int = -1
-    var thisPost : String = ""
+    var selectedPartyIndex: Int = -1
+    var thisPost: String = ""
     var post: Post? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,19 +76,19 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
 
         sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE)
         voterId = sharedPreferences.getString("voter_id", "APU1234").toString()
+        privateKey = sharedPreferences.getString("private_key","null").toString()
 
 
         post = intent.getSerializableExtra("post") as? Post
 
-        if(post == null){
+        if (post == null) {
             Toast.makeText(this, "Null recieved", Toast.LENGTH_SHORT).show()
-        }
-        else {
+        } else {
             val gson = Gson()
-            val type = object : TypeToken<ArrayList<Party>>(){}.type
-            val partyList:ArrayList<Party> = gson.fromJson(post!!.parties, type)
+            val type = object : TypeToken<ArrayList<Party>>() {}.type
+            val partyList: ArrayList<Party> = gson.fromJson(post!!.parties, type)
 
-            for(i in partyList)
+            for (i in partyList)
                 list.add(i)
 
             initRV()
@@ -96,7 +101,7 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
         }
     }
 
-    private fun initRV(){
+    private fun initRV() {
         val adapter = PartyVoteAdaptorRV(this, list, this)
 
         val recycleView = findViewById<RecyclerView>(R.id.parties_rv)
@@ -107,9 +112,9 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
 
     override fun onItemClicked(party: Party, position: Int) {
 
-        if(position!=-1)
+        if (position != -1)
         //Toast.makeText(this, party.partyName + " Selected", Toast.LENGTH_SHORT).show()
-        selectedPartyIndex = position
+            selectedPartyIndex = position
     }
 
     private fun showLoadingDialog() {
@@ -122,7 +127,8 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
         loadingDialog.show()
     }
 
-    private fun voteNow(){
+    private fun voteNow() {
+
 
         //Toast.makeText(this, "Processing Request...", Toast.LENGTH_SHORT).show()
         showLoadingDialog()
@@ -139,6 +145,7 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
         val c: Calendar = Calendar.getInstance()
 
         dateTime = sdf.format(c.time)
+
         partyVoted = list[selectedPartyIndex].partyName
         postVoted = thisPost
 
@@ -149,10 +156,11 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
             partyVoted
         )
 
+
         addToMyVotes(vote)
         addVoteToFirebase(voterId, dateTime, vote)
         saveBlockOnFirebase()
-
+        storeVoteCount(postVoted,partyVoted)
 
         selectedPartyIndex = -1
 
@@ -161,7 +169,7 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
 
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onClick(v: View?) {
-        when(v?.id){
+        when (v?.id) {
             R.id.accept_btn -> {
                 if (selectedPartyIndex == -1)
                     Toast.makeText(this, "No party selected", Toast.LENGTH_SHORT).show()
@@ -169,16 +177,15 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
 
                     if (sharedPreferences.getBoolean("isBioVerificationEnabled", false)) {
 
-                        val biometricVerification = BiometricVerification(this,this)
-                        if(biometricVerification.checkBiometricSupport()) {
+                        val biometricVerification = BiometricVerification(this, this)
+                        if (biometricVerification.checkBiometricSupport()) {
                             biometricVerification.buildBiometricPrompt(
                                 "Biometric Verification",
                                 "Please Verify",
                                 "Cancel"
                             )
                         }
-                    }
-                    else{
+                    } else {
                         voteNow()
                     }
                 }
@@ -192,12 +199,14 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
 
                 val intent2 = Intent(this, MyVotesActivity::class.java)
                 startActivity(intent2)
-               
+
             }
         }
     }
 
-    private fun addToMyVotes(vote: Vote){
+
+
+    private fun addToMyVotes(vote: Vote) {
 
         val viewModelMyVote: VoteViewModel = ViewModelProvider(
             this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)
@@ -206,7 +215,7 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
         viewModelMyVote.insertVote(vote)
     }
 
-    private fun addVoteToFirebase(voterId: String, currentDate: String, vote: Vote){
+    private fun addVoteToFirebase(voterId: String, currentDate: String, vote: Vote) {
 
         rootNode = FirebaseDatabase.getInstance();
         votesRef = rootNode.getReference("votes")
@@ -215,37 +224,54 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
 
     }
 
-    private fun getHash(data: String) : String? {
+    private fun getHash(data: String): String? {
 
-        var hash : String? = null
+        var hash: String? = null
         try {
-            val hashObj  = HashSHA256()
+            val hashObj = HashSHA256()
             hash = hashObj.toHexString(hashObj.getSHA(data))
 
-        }
-        catch (e: NoSuchAlgorithmException){
+        } catch (e: NoSuchAlgorithmException) {
             Log.d("getHash", e.toString())
         }
         return hash
 
     }
 
-    private fun saveBlockOnFirebase(){
+
+
+    private fun createData():String{
+
+        val data = "{ time :"+"\""+dateTime+"\"" + ", voterId :"+"\"" + voterId+"\"" +", partyVoted : "+"\"" + partyVoted +"\"" +
+                ", postVoted : "+"\"" + postVoted +"\"" +"}"
+
+        return data
+    }
+
+    private fun encryptData():String{
+
+        val plainText:String = createData()
+        val encryptionAES = EncryptionAES()
+        return encryptionAES.encryptAes(plainText,privateKey)
+
+    }
+
+
+    private fun saveBlockOnFirebase() {
 
         //get hash for the block
-        val hash = getHash(voterId + dateTime + postVoted + partyVoted)
-        if(hash!=null){
-            Log.d("BLOCK", hash)
-        }
-        else{
+        hash = getHash(voterId + dateTime + postVoted + partyVoted)
+        if (hash != null) {
+            Log.d("BLOCK", hash!!)
+        } else {
             Toast.makeText(this, "Hashing Failure", Toast.LENGTH_SHORT).show()
             return
         }
 
 
         //fetch hash of last block from Firebase
-        val ref : DatabaseReference = FirebaseDatabase.getInstance().reference.child("blocks")
-        val check : Query = ref.orderByChild("timestamp").limitToLast(1)
+        val ref: DatabaseReference = FirebaseDatabase.getInstance().reference.child("blocks")
+        val check: Query = ref.orderByChild("timestamp").limitToLast(1)
 
         check.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
@@ -256,17 +282,24 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
                         previousHash = child.key!!
                     }
 
-                    //fetching successful
 
+
+                    //fetching successful
                     //creating newBlock
+
+
                     val time = System.currentTimeMillis().toString()
-                    val newBlock = Block(hash, previousHash, time , voterId)
+                    encryptedData = encryptData()
+                    val newBlock = hash?.let { Block(it, previousHash, time, voterId,encryptedData) }
+
 
                     //uploading the block to Firebase
                     rootNode = FirebaseDatabase.getInstance();
                     votesRef = rootNode.getReference("blocks")
 
-                    votesRef.child(hash).setValue(newBlock)
+                    //upload Block to firebase
+                    votesRef.child(hash!!).setValue(newBlock)
+
 
                     //Log.d("BLOCK", previousHash)
                     //Toast.makeText(applicationContext, previousHash, Toast.LENGTH_SHORT).show()
@@ -287,11 +320,47 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
 
     }
 
+
+    fun storeVoteCount(post:String,party:String) {
+
+
+
+        val ref: DatabaseReference =
+            FirebaseDatabase.getInstance().reference.child("results").child(post)
+        val check: Query = ref.orderByKey()
+
+        val hashMap: MutableMap<String, Int> = HashMap<String, Int>()
+
+        check.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+
+                if (snapshot.child(party).value == null) {
+
+                    hashMap[party] = 1
+                    ref.updateChildren(hashMap as Map<String, Any>)
+
+                } else {
+
+                    val currentVoteCount = snapshot.child(party).value.toString().toInt()
+
+                    hashMap[party] = currentVoteCount + 1
+                    ref.updateChildren(hashMap as Map<String, Any>)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+               Toast.makeText(applicationContext,"Error in Voting, Try Later",Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
     fun fetch(view: View) {
         showLoadingDialog()
     }
 
-    fun moveToMainPage(){
+    fun moveToMainPage() {
 
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
@@ -302,14 +371,29 @@ class VoteActivity : AppCompatActivity() , PartyVoteAdaptorRV.InterfacePartyAdap
     }
 
     override fun onStateChange(bool: Boolean) {
-        if(bool){
+        if (bool) {
             Toast.makeText(applicationContext, "Verification Successful", Toast.LENGTH_SHORT).show()
             voteNow()
-        }
-        else{
-            Toast.makeText(applicationContext, "Verification Unsuccessful", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(applicationContext, "Verification Unsuccessful", Toast.LENGTH_SHORT)
+                .show()
 
             finish()
         }
     }
+
+    fun testEncryption(view: View) {
+        val key = "appleisredisredr"
+
+        val plainText = "apple"
+
+        val e = EncryptionAES()
+        val cypher = e.encryptAes(plainText,key)
+        Log.d("ENCRYPT",cypher);
+        Toast.makeText(applicationContext, cypher, Toast.LENGTH_SHORT).show()
+
+
+
+    }
+
 }

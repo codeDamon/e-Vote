@@ -5,33 +5,63 @@ import android.util.Log;
 import com.scottyab.aescrypt.AESCrypt;
 
 import java.security.GeneralSecurityException;
+import java.util.Base64;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 public class EncryptionAES {
 
-    String TAG = "ENCRYPT";
+    private String TAG = "ENCRYPT-DECRYPT";
+    private static final String characterEncoding       = "UTF-8";
+    private static final String cipherTransformation    = "AES/CBC/PKCS5PADDING";
+    private static final String aesEncryptionAlgorithm = "AES";
 
-    public String encrypt(String plainText, String key){
+
+
+    public String encryptAes(String plainText,String encryptionKey) {
+
+        String encryptedText = "";
+
         try {
-            String cypherText = AESCrypt.encrypt(key, plainText);
-            return cypherText;
+            Cipher cipher   = Cipher.getInstance(cipherTransformation);
+            byte[] key      = encryptionKey.getBytes(characterEncoding);
 
-        }catch (GeneralSecurityException e){
-            //handle error
-            Log.d(TAG,"Error:"+e);
-            return null;
+            SecretKeySpec secretKey = new SecretKeySpec(key, aesEncryptionAlgorithm);
+
+            IvParameterSpec ivparameterspec = new IvParameterSpec(key);
+
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivparameterspec);
+            byte[] cipherText = cipher.doFinal(plainText.getBytes("UTF8"));
+            Base64.Encoder encoder = Base64.getEncoder();
+            encryptedText = encoder.encodeToString(cipherText);
+
+        } catch (Exception E) {
+            Log.d( TAG,"Encrypt Exception : "+ E.getMessage());
         }
+        return encryptedText;
     }
 
-    public String decrypt(String cypherText, String key){
 
+    public String decryptAes(String encryptedText, String encryptionKey) {
+        String decryptedText = "";
         try {
-            String plainText = AESCrypt.decrypt(cypherText, key);
-            return plainText;
-        }catch (GeneralSecurityException e){
-            //handle error - could be due to incorrect password or tampered encryptedMsg
-            Log.d(TAG,"Error:"+e);
-            return "error";
+
+            Cipher cipher = Cipher.getInstance(cipherTransformation);
+            byte[] key = encryptionKey.getBytes(characterEncoding);
+            SecretKeySpec secretKey = new SecretKeySpec(key, aesEncryptionAlgorithm);
+            IvParameterSpec ivparameterspec = new IvParameterSpec(key);
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, ivparameterspec);
+            Base64.Decoder decoder = Base64.getDecoder();
+            byte[] cipherText = decoder.decode(encryptedText.getBytes("UTF8"));
+            decryptedText = new String(cipher.doFinal(cipherText), "UTF-8");
+
+        } catch (Exception E) {
+            Log.d(TAG,"decrypt Exception : "+E.getMessage());
         }
+
+        return decryptedText;
     }
 
 

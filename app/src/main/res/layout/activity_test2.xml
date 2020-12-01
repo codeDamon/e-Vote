@@ -37,6 +37,19 @@
         android:hint="Cypher Text"
         />
 
+    <EditText
+        android:id="@+id/key"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintTop_toBottomOf="@+id/cypher"
+
+        android:layout_marginStart="20dp"
+
+        android:gravity="center"
+        android:hint="Private Key"
+        />
+
     <Button
         android:id="@+id/ptoc"
         android:layout_width="wrap_content"
@@ -46,7 +59,7 @@
         android:layout_marginTop="10dp"
 
 
-        app:layout_constraintTop_toBottomOf="@id/cypher"
+        app:layout_constraintTop_toBottomOf="@id/key"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

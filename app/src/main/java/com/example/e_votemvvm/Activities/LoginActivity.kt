@@ -95,6 +95,7 @@ class LoginActivity : AppCompatActivity(),View.OnClickListener {
                     val p_details = child.child("post_details").value.toString()
 
 
+
                     val parties: ArrayList<Party> = ArrayList()
 
                     for(party in child.child("parties").children){
@@ -168,13 +169,18 @@ class LoginActivity : AppCompatActivity(),View.OnClickListener {
 
                     str = json.getJSONObject(voterId).getString("dob")
                     myEdit.putString("dob", str )
+
+                    str = json.getJSONObject(voterId).getString("private_key")
+                    myEdit.putString("private_key",str)
                         .apply()
 
 
 
-                    //Toast.makeText(applicationContext, str1, Toast.LENGTH_SHORT).show()
 
-                   //TODO
+
+                    //Toast.makeText(applicationContext, str, Toast.LENGTH_SHORT).show()
+
+
 
                     val intent = Intent(applicationContext,OtpVerificationActivity::class.java)
                     startActivity(intent)
@@ -210,7 +216,7 @@ class LoginActivity : AppCompatActivity(),View.OnClickListener {
                     intent = Intent(Intent.ACTION_VIEW)
                         .setData(Uri.parse(eciHelpUrl))
                     //Toast.makeText(this, "Help", Toast.LENGTH_SHORT).show()
-                    //intent = Intent(this,TestActivity2::class.java)
+                    intent = Intent(this,TestActivity2::class.java)
                     startActivity(intent)
                 }
 

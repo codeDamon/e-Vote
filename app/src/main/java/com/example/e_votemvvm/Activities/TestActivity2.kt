@@ -12,6 +12,7 @@ class TestActivity2 : AppCompatActivity() ,View.OnClickListener{
 
     lateinit var ptext: EditText
     lateinit var ctext: EditText
+    lateinit var keyEt: EditText
     lateinit var pcbtn : Button
     lateinit var cpbtn: Button
 
@@ -26,6 +27,7 @@ class TestActivity2 : AppCompatActivity() ,View.OnClickListener{
         ctext  = findViewById(R.id.cypher)
         pcbtn = findViewById(R.id.ptoc)
         cpbtn = findViewById(R.id.ctop)
+        keyEt = findViewById(R.id.key)
 
         pcbtn.setOnClickListener(this)
         cpbtn.setOnClickListener(this)
@@ -35,21 +37,27 @@ class TestActivity2 : AppCompatActivity() ,View.OnClickListener{
 
 
 
+
+
     }
 
     fun encrypt() {
 
-        ctext.setText( aes.encrypt(ptext.text.toString(),key).toString())
+        key = keyEt.text.toString()
+        ctext.setText( aes.encryptAes(ptext.text.toString(),key).toString())
+
 
 
 
     }
     fun decrypt() {
 
+        key = keyEt.text.toString()
+
         var str = ctext.text.toString()
         if(str!=null)
 
-        str =  aes.decrypt(str,key)
+        str =  aes.decryptAes(str,key)
 
         ptext.setText(str)
 

@@ -52,6 +52,7 @@
                 android:layout_gravity="bottom"
                 android:layout_margin="15dp"
                 android:background="@drawable/round_solid"
+                android:visibility="invisible"
 
                 android:backgroundTint="@color/colorPrimaryLight"
                 android:padding="2dp"
@@ -135,6 +136,19 @@
             android:src="@drawable/ic_baseline_cancel_24"
             app:tint="@color/red"
             />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+
+            android:onClick="testEncryption"
+            android:layout_marginBottom="2dp"
+            android:layout_marginEnd="15dp"
+            android:visibility="visible"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

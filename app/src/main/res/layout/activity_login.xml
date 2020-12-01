@@ -118,7 +118,8 @@
 
             android:onClick="nextPage"
             android:layout_marginBottom="2dp"
-            android:layout_marginEnd="15dp"/>
+            android:layout_marginEnd="15dp"
+            android:visibility="visible"/>
 
 
 
