@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:background="@color/colorPrimaryExtraLight"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryExtraLight"
+
+    tools:context=".Activities.AllBlocksActivity">
+
+
+    <HorizontalScrollView
+        android:id="@+id/hor_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:fillViewport="true"
+        android:scrollbars="none"
+
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/filter_layout"
+                android:background="@drawable/round_corner"
+                android:paddingStart="10dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:elevation="2dp"
+                >
+
+                <TextView
+                    android:id="@+id/filter_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/filter_all_votes"
+                    android:text="Filter By: "
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:layout_marginStart="10dp"
+
+                    />
+                <TextView
+                    android:id="@+id/filter_all_votes"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+
+                    app:layout_constraintStart_toEndOf="@+id/filter_label"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/filter_my_votes"
+                    android:text="All Votes"
+                    android:gravity="center"
+
+                    android:background="@drawable/round_corner"
+
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+
+                    android:textSize="12sp"
+                    android:padding="5dp"
+                    android:layout_marginStart="20dp"
+
+                    />
+                <TextView
+                    android:id="@+id/filter_my_votes"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+
+                    app:layout_constraintStart_toEndOf="@+id/filter_all_votes"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+
+                    android:padding="5dp"
+                    android:text="My Votes"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:background="@drawable/round_corner"
+
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+
+        android:background="@color/colorPrimaryDark"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent"
+
+        >
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"
+
+            android:text="Verify Votes"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+
+            />
+
+
+        <ImageView
+            android:id="@+id/refresh_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:layout_gravity="bottom"
+            android:layout_margin="15dp"
+
+            android:visibility="visible"
+
+            android:padding="2dp"
+            android:src="@drawable/ic_baseline_refresh_24" />
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_blocks"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+        app:layout_constraintTop_toBottomOf="@id/hor_scroll"
+
+
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="40dp"
+
+
+        tools:listitem="@layout/item_block_rv"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

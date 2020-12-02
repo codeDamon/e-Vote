@@ -216,7 +216,7 @@ class LoginActivity : AppCompatActivity(),View.OnClickListener {
                     intent = Intent(Intent.ACTION_VIEW)
                         .setData(Uri.parse(eciHelpUrl))
                     //Toast.makeText(this, "Help", Toast.LENGTH_SHORT).show()
-                    intent = Intent(this,TestActivity2::class.java)
+                    intent = Intent(this,AllBlocksActivity::class.java)
                     startActivity(intent)
                 }
 

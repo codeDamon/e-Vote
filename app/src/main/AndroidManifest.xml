@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EVoteMVVM">
-        <activity android:name=".Activities.SettingActivity"></activity>
+        <activity android:name=".Activities.AllBlocksActivity"></activity>
+        <activity android:name=".Activities.SettingActivity" />
         <activity android:name=".Activities.TestActivity2" />
         <activity android:name=".Activities.OtpVerificationActivity" />
         <activity android:name=".Activities.MainActivity" />
