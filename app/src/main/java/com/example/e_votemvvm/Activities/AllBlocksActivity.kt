@@ -25,6 +25,7 @@ class AllBlocksActivity : AppCompatActivity() , View.OnClickListener, AllBlocksA
     val SHARED_PREF = "MY_SHARED_PREF"
     lateinit var sharedPreferences: SharedPreferences
     lateinit var loadingDialog : Dialog
+    lateinit var key:String
 
     lateinit var voterId:String
     lateinit var filterMyVotes:TextView
@@ -33,7 +34,6 @@ class AllBlocksActivity : AppCompatActivity() , View.OnClickListener, AllBlocksA
 
     lateinit var blockList:ArrayList<Block>
     lateinit var myBlockList:ArrayList<Block>
-
     lateinit var recyclerView: RecyclerView
     var option : Int = 1
 
@@ -58,21 +58,13 @@ class AllBlocksActivity : AppCompatActivity() , View.OnClickListener, AllBlocksA
         sharedPreferences = getSharedPreferences(SHARED_PREF , MODE_PRIVATE)
 
         voterId = sharedPreferences.getString("voter_id","APU1234")!!
-
+        key = sharedPreferences.getString("private_key",null)!!
 
         fillListUsingFirebase()
 
-
-
-
         blockList = ArrayList<Block>()
-
         myBlockList = ArrayList<Block>()
-
-
         recyclerView = findViewById(R.id.recycler_view_blocks)
-
-
 
     }
 
@@ -90,11 +82,12 @@ class AllBlocksActivity : AppCompatActivity() , View.OnClickListener, AllBlocksA
     }
 
     private fun updateAdaptor(){
+
         val adaptor:AllBlocksAdaptor
         if(option==1)
-            adaptor = AllBlocksAdaptor(this, blockList, option, voterId,this )
+            adaptor = AllBlocksAdaptor(this, blockList, option, voterId,this,key )
         else
-            adaptor = AllBlocksAdaptor(this, myBlockList, option, voterId,this )
+            adaptor = AllBlocksAdaptor(this, myBlockList, option, voterId,this ,key)
         recyclerView.adapter = adaptor
     }
 
@@ -201,7 +194,6 @@ class AllBlocksActivity : AppCompatActivity() , View.OnClickListener, AllBlocksA
         }
         else if(myVoteOrNot==0){
             Toast.makeText(applicationContext,"Your Vote",Toast.LENGTH_SHORT).show()
-
         }
     }
 }

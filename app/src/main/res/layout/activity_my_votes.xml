@@ -1,89 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryExtraLight"
-    tools:context=".Activities.MyVotesActivity">
+    android:fitsSystemWindows="true"
+    tools:context=".Activities.MyVotesActivity"
+    tools:openDrawer="start">
 
-    <LinearLayout
-        android:id="@+id/toolbar"
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="match_parent">
 
-        android:background="@color/colorPrimaryDark"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        app:layout_constraintStart_toStartOf="parent"
-
-        app:layout_constraintTop_toTopOf="parent"
-
-        >
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
-            android:layout_gravity="center"
-            android:layout_marginStart="15dp"
-            android:layout_weight="1"
-
-            android:text="Available Voting Posts"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-
-            />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:menu="@menu/my_vote_activity_menu"
+                app:title="Available Posts"
+                app:titleTextColor="@color/white"
 
 
-        <ImageView
-            android:id="@+id/profile_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+                />
+
+        </com.google.android.material.appbar.AppBarLayout>
 
 
-            android:layout_gravity="bottom"
-            android:layout_margin="15dp"
-            android:background="@drawable/round_solid"
-
-            android:backgroundTint="@color/colorPrimaryExtraLight"
-            android:padding="2dp"
-            android:src="@drawable/ic_baseline_person_24" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        app:layout_constraintStart_toStartOf="parent"
-
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-
-        android:text="My Votes"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="20dp"
-        />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/my_votes_rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        app:layout_constraintTop_toBottomOf="@id/tv_5"
-
-        tools:itemCount="4"
-        tools:listitem="@layout/item_my_vote_rv"
-
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="20dp"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/const_have_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:background="@color/colorPrimaryExtraLight">
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tv_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="20dp"
+
+                android:layout_marginTop="30dp"
+
+                android:text="My Votes"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/my_votes_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="20dp"
+
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+
+                app:layout_constraintTop_toBottomOf="@id/tv_5"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_my_vote_rv" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/const_no_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:visibility="gone"
+
+            android:background="@color/colorPrimaryExtraLight">
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:lottie_rawRes="@raw/nodata"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+
+
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tv_6"
+                />
+
+            <TextView
+                android:id="@+id/tv_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:gravity="center"
+
+                app:layout_constraintBottom_toTopOf="@id/voteNowBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                android:layout_marginBottom="10dp"
+
+                android:text="You haven't voted till now"/>
+
+            <Button
+                android:id="@+id/voteNowBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                android:text="Vote Now"
+                android:textColor="@color/white"
+
+
+
+                android:layout_marginBottom="20dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

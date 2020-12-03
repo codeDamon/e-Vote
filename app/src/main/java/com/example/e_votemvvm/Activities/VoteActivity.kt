@@ -382,7 +382,7 @@ class VoteActivity : AppCompatActivity(), PartyVoteAdaptorRV.InterfacePartyAdapt
         }
     }
 
-    fun testEncryption(view: View) {
+   /* fun testEncryption(view: View) {
         val key = "appleisredisredr"
 
         val plainText = "apple"
@@ -394,6 +394,6 @@ class VoteActivity : AppCompatActivity(), PartyVoteAdaptorRV.InterfacePartyAdapt
 
 
 
-    }
+    }*/
 
 }

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+
+    android:layout_gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/round_corner">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:cardCornerRadius="9dp"
+        android:visibility="gone"
+
+        android:layout_gravity="center"
+
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            android:padding="15dp"
+            android:layout_gravity="center"
+            >
+
+            <TextView
+
+
+                android:id="@+id/tv_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Details"
+                android:textColor="@color/textColor"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                android:gravity="center"
+                />
+
+
+
+
+            <TextView
+                android:id="@+id/post_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                app:layout_constraintTop_toBottomOf="@id/tv_10"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+
+
+                android:text="Lok Sabha Election"
+                android:textColor="@color/black"
+                android:maxLines="1"
+
+                android:ellipsize="end"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/party_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+
+                app:layout_constraintTop_toBottomOf="@id/post_name"
+                app:layout_constraintStart_toStartOf="@id/post_name"
+
+                android:text="Bhartiya Janta Party"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+
+                app:layout_constraintTop_toBottomOf="@id/party_name"
+                app:layout_constraintStart_toStartOf="@id/party_name"
+                app:layout_constraintEnd_toEndOf="@id/party_name"
+                android:gravity="center"
+                android:text="14 Jan,2020"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+
+
+
+
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/unlock_logo"
+        android:src="@drawable/ic_twotone_lock_open_24"
+        app:tint="@color/textColor"
+        app:layout_constraintTop_toTopOf="@id/card"
+        app:layout_constraintEnd_toEndOf="@id/card"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+        android:visibility="gone"
+
+        android:clickable="true"
+        android:elevation="9dp" />
+
+    <ImageView
+        android:id="@+id/locked_logo"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        android:src="@drawable/ic_twotone_lock_24"
+        android:layout_marginTop="10dp"
+
+        app:tint="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+       />
+
+    <TextView
+        android:id="@+id/tv_13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/locked_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:text="Locked! \nNot your vote"
+        android:textColor="@color/black"
+        android:visibility="gone"
+        android:textStyle="bold"
+        />
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

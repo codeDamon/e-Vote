@@ -145,10 +145,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
 
-            android:onClick="testEncryption"
             android:layout_marginBottom="2dp"
             android:layout_marginEnd="15dp"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

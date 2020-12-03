@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -28,6 +29,12 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_detail)
+
+       /* val profileLogo = findViewById<ImageView>(R.id.profile_logo)
+        profileLogo.setOnClickListener(View.OnClickListener {
+            intent = Intent(this,AllBlocksActivity::class.java)
+            startActivity(intent)
+        })*/
 
         post  = intent.getSerializableExtra("post") as? Post
 

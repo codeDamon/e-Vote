@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp"
+    android:background="@drawable/round_corner"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+
+
+        android:id="@+id/tv_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Hash"
+        android:textColor="@color/textColor"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:gravity="center"
+        />
+
+
+    <TextView
+        android:id="@+id/block_hash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:elevation="5dp"
+
+        android:gravity="center"
+
+
+        app:layout_constraintTop_toBottomOf="@+id/tv_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+
+        android:maxLines="3"
+        android:text="RKclW5gEVBZSlAxK6e4OZsAmQrAihvqMhtjcm+DRGoGoi+qwR0u4mK2m"
+        android:ellipsize="end"
+        android:ems="3"
+        />
+
+
+    <ImageView
+        android:id="@+id/front_lock"
+        android:src="@drawable/ic_twotone_lock_24"
+        app:tint="@color/textColor"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+        android:visibility="invisible"
+
+        android:clickable="true"
+        android:elevation="9dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
