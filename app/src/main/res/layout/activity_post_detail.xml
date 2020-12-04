@@ -55,6 +55,7 @@
 
         android:backgroundTint="@color/colorPrimaryLight"
         android:padding="2dp"
+        android:visibility="gone"
         android:src="@drawable/ic_baseline_person_24" />
     </LinearLayout>
 

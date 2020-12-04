@@ -116,6 +116,7 @@
         android:textColor="@color/colorAccent"
         android:textSize="16sp"
 
+
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/loc_logo"
 

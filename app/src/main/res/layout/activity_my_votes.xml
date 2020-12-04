@@ -52,6 +52,7 @@
                 android:layout_marginTop="30dp"
 
                 android:text="My Votes"
+
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"

@@ -35,7 +35,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_weight="1"
 
-                android:onClick="fetch"
+
                 android:text="Lok Sabha Election"
                 android:textColor="@color/white"
                 android:textSize="20sp"

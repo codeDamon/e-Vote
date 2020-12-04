@@ -25,6 +25,7 @@ import com.example.e_votemvvm.Models.Post
 import com.example.e_votemvvm.R
 import com.example.e_votemvvm.Utilities.BiometricVerification
 import com.example.e_votemvvm.ViewModels.PostViewModel
+import com.example.e_votemvvm.ViewModels.VoteViewModel
 import com.google.firebase.database.*
 import com.google.gson.Gson
 
@@ -39,6 +40,8 @@ class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV 
     lateinit var viewModel: PostViewModel
     lateinit var loadingDialog : Dialog
     lateinit var locTv: TextView
+
+    lateinit var voterId:String
 
 
 
@@ -80,13 +83,15 @@ class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV 
         sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE)
         val newUser = sharedPreferences.getBoolean("newUser", true)
         val locCity =  sharedPreferences.getString("city", "Delhi")
+        voterId = sharedPreferences.getString("voter_id","APU1234")!!
+
         locTv.text = locCity
 
         val myEdit = sharedPreferences.edit()
 
         if(newUser) {
             myEdit.putBoolean("newUser", false).apply()
-            fillListUsingFirebase()
+            getAllPreviousVotesFromFirebase()
         }
         else{
             if(sharedPreferences.getBoolean("isBioVerificationEnabled", false)){
@@ -112,9 +117,40 @@ class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV 
         loadingDialog.show()
     }
 
-    private fun fillListUsingFirebase(){
-
+    private fun getAllPreviousVotesFromFirebase(){
         showLoadingDialog()
+
+        val previousPostVoted : ArrayList<String> = ArrayList()
+        previousPostVoted.clear()
+
+        val ref: DatabaseReference = FirebaseDatabase.getInstance().reference.child("votes").child(voterId)
+        val check: Query = ref.orderByKey()
+
+        check.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                for(child in snapshot.children){
+
+                    previousPostVoted.add(child.child("votePost").value.toString())
+
+                }
+
+                fillListUsingFirebase(previousPostVoted)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+
+
+
+    }
+
+    private fun fillListUsingFirebase(previousVotePostList : ArrayList<String>){
+
+        //showLoadingDialog()
+        viewModel.deleteAllPosts()
 
         val ref: DatabaseReference = FirebaseDatabase.getInstance().reference.child("posts")
         val check: Query = ref.orderByKey()
@@ -128,6 +164,9 @@ class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV 
                     //Log.d("POST", child.value.toString())
 
                     val p_name = child.child("post_name").value.toString()
+
+                    if(previousVotePostList.indexOf(p_name)!=-1)
+                        continue
                     val p_start = child.child("post_start").value.toString()
                     val p_end = child.child("post_end").value.toString()
                     val p_details = child.child("post_details").value.toString()
@@ -254,6 +293,10 @@ class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV 
             }
             R.id.logout_menu -> {
                 Toast.makeText(applicationContext, "Logout Successful", Toast.LENGTH_SHORT).show()
+                val viewModelMyVote = ViewModelProvider(this,
+                    ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(
+                    VoteViewModel::class.java)
+                viewModelMyVote.deleteAllVotes()
                 sharedPreferences.edit().clear().apply()
                 viewModel.deleteAllPosts()
                 intent = Intent(this,LoginActivity::class.java)
@@ -275,4 +318,5 @@ class MainActivity : AppCompatActivity() , PostAdaptorRV.InterfacePostAdaptorRV 
             finish()
         }
     }
+
 }

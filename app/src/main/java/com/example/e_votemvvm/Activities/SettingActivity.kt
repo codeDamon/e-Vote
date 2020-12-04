@@ -13,6 +13,7 @@ import androidx.preference.*
 import com.example.e_votemvvm.Fragments.SettingsFragment
 import com.example.e_votemvvm.R
 import com.example.e_votemvvm.ViewModels.PostViewModel
+import com.example.e_votemvvm.ViewModels.VoteViewModel
 
 class SettingActivity : AppCompatActivity() ,Preference.OnPreferenceChangeListener {
 
@@ -63,6 +64,10 @@ class SettingActivity : AppCompatActivity() ,Preference.OnPreferenceChangeListen
                 Toast.makeText(applicationContext, "Logout Successful", Toast.LENGTH_SHORT).show()
                 sharedPreferences.edit().clear().apply()
                 viewModel.deleteAllPosts()
+                val viewModelMyVote = ViewModelProvider(this,
+                    ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(
+                    VoteViewModel::class.java)
+                viewModelMyVote.deleteAllVotes()
                 intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finishAffinity()

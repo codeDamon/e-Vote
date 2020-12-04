@@ -215,8 +215,7 @@ class LoginActivity : AppCompatActivity(),View.OnClickListener {
                     val eciHelpUrl = "https://ecisveep.nic.in/"
                     intent = Intent(Intent.ACTION_VIEW)
                         .setData(Uri.parse(eciHelpUrl))
-                    //Toast.makeText(this, "Help", Toast.LENGTH_SHORT).show()
-                    intent = Intent(this,AllBlocksActivity::class.java)
+
                     startActivity(intent)
                 }
 

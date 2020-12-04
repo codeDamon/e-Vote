@@ -19,9 +19,22 @@ class VoteViewModel(application: Application):AndroidViewModel(application) {
         val dao = PostDatabase.getInstance(application).getVoteDao()
         repository = VoteRepository(dao)
         allVotes = repository.getAllVotes
+
     }
 
     fun insertVote(vote: Vote) = viewModelScope.launch(Dispatchers.IO){
         repository.insert(vote)
     }
+
+    fun checkForVoted(postVoted:String):Long {
+        var i : Long = 0
+        viewModelScope.launch(Dispatchers.IO){
+         i = repository.checkVotedOrNot(postVoted)}
+        return i
+    }
+
+    fun deleteAllVotes() = viewModelScope.launch(Dispatchers.IO){
+        repository.deleteAll()
+    }
+
 }

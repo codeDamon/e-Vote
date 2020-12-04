@@ -9,7 +9,16 @@ class VoteRepository(private val voteDao: VoteDao) {
 
     val getAllVotes: LiveData<List<Vote>> = voteDao.getAllVotes()
 
+
     suspend fun insert(vote: Vote){
         voteDao.insertVote(vote)
+    }
+
+    suspend fun checkVotedOrNot(postVoted: String):Long{
+       return voteDao.checkForAlreadyVoted(postVoted)
+    }
+
+    suspend fun deleteAll(){
+       voteDao.deleteAllVotes()
     }
 }

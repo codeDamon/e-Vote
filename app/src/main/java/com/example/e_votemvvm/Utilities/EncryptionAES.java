@@ -25,7 +25,7 @@ public class EncryptionAES {
         String encryptedText = "";
 
         try {
-            Cipher cipher   = Cipher.getInstance(cipherTransformation);
+            Cipher cipher = Cipher.getInstance(cipherTransformation);
             byte[] key      = encryptionKey.getBytes(characterEncoding);
 
             SecretKeySpec secretKey = new SecretKeySpec(key, aesEncryptionAlgorithm);

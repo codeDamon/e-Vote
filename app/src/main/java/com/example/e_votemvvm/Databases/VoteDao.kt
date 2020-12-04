@@ -15,4 +15,10 @@ interface VoteDao {
     @Query("SELECT * from my_votes_table ORDER BY _id DESC")
     fun getAllVotes(): LiveData<List<Vote>>
 
+    @Query("SELECT COUNT(*) FROM my_votes_table WHERE voter_id != :votePost")
+    fun checkForAlreadyVoted(votePost: String) : Long
+
+    @Query("DELETE FROM my_votes_table")
+    suspend fun deleteAllVotes();
+
 }

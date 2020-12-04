@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.e_votemvvm.Adaptors.MyVoteAdaptorRV
 import com.example.e_votemvvm.Adaptors.PostAdaptorRV
+import com.example.e_votemvvm.Models.Vote
 import com.example.e_votemvvm.R
 import com.example.e_votemvvm.ViewModels.VoteViewModel
 
@@ -23,6 +24,7 @@ class MyVotesActivity : AppCompatActivity() {
 
     val SHARED_PREF = "MY_SHARED_PREF"
     lateinit var sharedPreferences: SharedPreferences
+    lateinit var viewModelMyVote: VoteViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +35,8 @@ class MyVotesActivity : AppCompatActivity() {
 
         val noVoteListLayout = findViewById<ConstraintLayout>(R.id.const_no_list)
         val voteListLayout = findViewById<ConstraintLayout>(R.id.const_have_list)
+
+
 
         voteListLayout.visibility = View.VISIBLE
         noVoteListLayout.visibility = View.GONE
@@ -45,7 +49,7 @@ class MyVotesActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
 
-        val viewModelMyVote: VoteViewModel = ViewModelProvider(this,
+        viewModelMyVote = ViewModelProvider(this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(VoteViewModel::class.java)
 
         viewModelMyVote.allVotes.observe(this,{ list ->
@@ -96,6 +100,11 @@ class MyVotesActivity : AppCompatActivity() {
                 sharedPreferences.edit().clear().apply()
 
                 //viewModel.deleteAllPosts()
+                val viewModelMyVote = ViewModelProvider(this,
+                    ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(
+                    VoteViewModel::class.java)
+                viewModelMyVote.deleteAllVotes()
+
                 intent = Intent(this,LoginActivity::class.java)
                 startActivity(intent)
                 finishAffinity()
@@ -103,6 +112,11 @@ class MyVotesActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun check(view: View) {
+        viewModelMyVote.insertVote(Vote("APU1234","14-January,2020-06:00","State Assembly Election","Bhartiya Janta Party"))
+        Toast.makeText(this,"count="+viewModelMyVote.checkForVoted("APU1234"),Toast.LENGTH_SHORT).show()
     }
 
 }

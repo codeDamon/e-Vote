@@ -177,7 +177,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
 
-            android:visibility="visible"
+            android:visibility="gone"
             android:onClick="nextPage"
             android:layout_marginBottom="2dp"
             android:layout_marginEnd="15dp"/>
