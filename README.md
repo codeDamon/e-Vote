@@ -1,5 +1,5 @@
 <p align= "center">
-<img alt="eVote logo" src="https://github.com/codeDamon/temp/blob/main/evote_app_logo.png" width=150px height=150px />
+<img alt="eVote logo" src="https://github.com/codeDamon/e-Vote/blob/master/app/src/main/res/drawable/evote_app_logo.png" width=150px height=150px />
 <h1 align = "center" > e-Vote </h1>
 </p>
 
