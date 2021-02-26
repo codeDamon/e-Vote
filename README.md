@@ -18,7 +18,7 @@ our votes. Voters can vote from any where in the world. Hence, significant incre
 
 √ Less error prone
 
-## Top Features of the App
+## :star: Top Features of the App
 1. Voter can login using their Voter-id Number.
 2. They will get an OTP on their registered mobile number.
 3. Voter can choose fingerprint authentication for enhancing security.
@@ -31,7 +31,12 @@ our votes. Voters can vote from any where in the world. Hence, significant incre
 10. But they can view only content(party voted, timestamp, etc) of their own vote.
 11. All votes are saved in encrypted form using **AES-256 Encryption**.
 
-## Technology
+## :iphone: Screens
+
+![screens](https://github.com/codeDamon/e-Vote/blob/master/images/screen-img1.png)
+![screens](https://github.com/codeDamon/e-Vote/blob/master/images/screen-img2.png)
+
+## :satellite: Technology
 1. Android
 2. Kotlin
 3. Firebase Authentication
@@ -40,11 +45,15 @@ our votes. Voters can vote from any where in the world. Hence, significant incre
 6. Room Database
 7. Material I/O
 
-## Algorithm
+## :bulb: Algorithm
 1. SHA-256 Algorithm - for generating unique hash
 2. AES-256 Algorithm - for cryptography
 
-## Screens
+## :wrench: How to build e-Vote
 
-![screens](https://github.com/codeDamon/e-Vote/blob/master/images/screen-img1.png)
-![screens](https://github.com/codeDamon/e-Vote/blob/master/images/screen-img2.png)
+1. Clone the repository
+1. Launch Android Studio
+1. Select ```Open an existing Android Studio project``` option in Android Studio
+1. Select the project folder
+1. Select ```Menu```, then ```Run``` -> ```Run 'app'```
+1. For testing use - Voter ID ```Write``` -> ```TEST1234``` and OTP ```Write``` ->  ```123456```
